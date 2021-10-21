@@ -285,7 +285,7 @@ Exit:
 }
 
 // Timestamp in milliseconds. Defaults to 1 sec as the first couple frames don't contain color
-static int playback(char* input_path, int timestamp = 10000, std::string output_filename = "output.ply")
+static int playback(char* input_path, int timestamp = 20000, std::string output_filename = "output.ply")
 {
     int returncode = 1;
     k4a_playback_t playback = NULL;
@@ -299,6 +299,9 @@ static int playback(char* input_path, int timestamp = 10000, std::string output_
     k4a_result_t result;
     k4a_stream_result_t stream_result;
 
+    std::string dir = "c:\test\\";
+    std::string filename = "output.ply";
+    std::string out_file = dir + filename;
     // open recording
     result = k4a_playback_open(input_path, &playback);
     if (result != K4A_RESULT_SUCCEEDED || playback == NULL)
@@ -307,14 +310,14 @@ static int playback(char* input_path, int timestamp = 10000, std::string output_
         goto exit;
     }
 
-    result = k4a_playback_seek_timestamp(playback, timestamp * 1000, K4A_PLAYBACK_SEEK_BEGIN);
+    result = k4a_playback_seek_timestamp(playback, 20000 * 1000, K4A_PLAYBACK_SEEK_BEGIN);
     if (result != K4A_RESULT_SUCCEEDED)
     {
-        printf("failed to seek timestamp %d\n", timestamp);
+        printf("failed to seek timestamp %d\n", 20000);
         goto exit;
     }
     printf("seeking to timestamp: %d/%d (ms)\n",
-        timestamp,
+        20000,
         (int)(k4a_playback_get_recording_length_usec(playback) / 1000));
 
     stream_result = k4a_playback_get_next_capture(playback, &capture);
@@ -395,7 +398,7 @@ static int playback(char* input_path, int timestamp = 10000, std::string output_
     }
 
     // compute color point cloud by warping depth image into color camera geometry
-    if (point_cloud_depth_to_color(transformation, depth_image, uncompressed_color_image, output_filename) == false)
+    if (point_cloud_depth_to_color(transformation, depth_image, uncompressed_color_image, out_file) == false)
     {
         printf("failed to transform depth to color\n");
         goto exit;
