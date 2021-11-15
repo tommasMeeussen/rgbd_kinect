@@ -299,7 +299,7 @@ static int playback(char* input_path, int timestamp = 20000, std::string output_
     k4a_result_t result;
     k4a_stream_result_t stream_result;
 
-    std::string dir = "c:\test\\";
+    std::string dir = "c:\\users\\tommas\\kinect_transformations\\\\";
     std::string filename = "output.ply";
     std::string out_file = dir + filename;
     // open recording
@@ -398,11 +398,46 @@ static int playback(char* input_path, int timestamp = 20000, std::string output_
     }
 
     // compute color point cloud by warping depth image into color camera geometry
+    //works but wrong file type
     if (point_cloud_depth_to_color(transformation, depth_image, uncompressed_color_image, out_file) == false)
     {
         printf("failed to transform depth to color\n");
         goto exit;
     }
+    else
+    {
+        printf("it worked\n");
+
+    }
+
+   /* k4a_image_create(K4A_IMAGE_FORMAT_COLOR_BGRA32,
+        color_width,
+        color_height,
+        color_width * 4 * (int)sizeof(uint8_t),
+        &uncompressed_color_image);*/
+
+    //if (k4a_transformation_depth_image_to_color_camera(transformation, depth_image, uncompressed_color_image) == false)
+    //{
+    //    printf("failed to transform depth to color\n");
+    //    goto exit;
+    //}
+    //else
+    //{
+    //    printf("it worked\n");
+
+    //}
+
+   // if (k4a_transformation_depth_image_to_color_camera(transformation, depth_image, uncompressed_color_image) == false)
+   //{
+   //     printf("failed to transform depth to color\n");
+   //     goto exit;
+   // }
+   // else
+   // {
+   //     printf("it worked\n");
+
+   // }
+
 
     returncode = 0;
 
