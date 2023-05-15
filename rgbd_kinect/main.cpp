@@ -147,12 +147,12 @@ static int playback(char* input_path, int timestamp = 20000, std::string output_
     k4a_result_t result;
     k4a_stream_result_t stream_result;
 
-    std::string dir = "c:\\users\\tommas\\kinect_transformations\\neryl_sad_depth\\\\";
+    std::string dir = "c:\\users\\tommas\\kinect_transformations\\clinic_pain_2_depth\\\\";
     std::string ply_dir = "c:\\users\\tommas\\kinect_transformations\\ply_sad\\\\";
-    std::string color_dir = "c:\\users\\tommas\\kinect_transformations\\neryl_sad_color\\\\";
+    std::string color_dir = "c:\\users\\tommas\\kinect_transformations\\noexp_test_color\\\\";
 
     std::string filename = "output2.png";
-    std::string fileN = "neryl_sad_depth_";
+    std::string fileN = "clinic_pain_2_depth_";
     std::string color_fileN = "color_output_";
     std::string ply_fileN = "100CM_ply_output_";
     std::string fileExt = ".png";
@@ -160,8 +160,8 @@ static int playback(char* input_path, int timestamp = 20000, std::string output_
     std::string out_file = "";
     std::string color_out_file = "";
     std::string out_file_ply = "";
-    int color_width = 2048;
-    int color_height = 1536;
+    int color_width = 1920;
+    int color_height = 1080;
     int depth_image_height_pixels = 576;
     int depth_image_width_pixels = 640;
     tjhandle tjhandle;
@@ -197,14 +197,14 @@ static int playback(char* input_path, int timestamp = 20000, std::string output_
          (int)(k4a_playback_get_recording_length_usec(playback) / 1000));*/
 
     int i = 0;
-    while(stream_result!= K4A_STREAM_RESULT_EOF){
+    while (stream_result != K4A_STREAM_RESULT_EOF) {
         i++;
         printf("%d", i);
         out_file = dir + fileN + "" + std::to_string(i) + "" + fileExt;
-        color_out_file = color_dir +color_fileN + "" + std::to_string(i) + "" + ".jpg";
+        color_out_file = color_dir + color_fileN + "" + std::to_string(i) + "" + ".jpg";
         out_file_ply = ply_dir + ply_fileN + "" + std::to_string(i) + "" + ".ply";
         //result = k4a_playback_get_next_capture(playback, result);
-        
+
         if (stream_result != K4A_STREAM_RESULT_SUCCEEDED || capture == NULL)
         {
             printf("failed to fetch frame\n");
@@ -258,7 +258,7 @@ static int playback(char* input_path, int timestamp = 20000, std::string output_
             return false;
         }*/
 
-       
+
         if (K4A_RESULT_SUCCEEDED != k4a_image_create(K4A_IMAGE_FORMAT_COLOR_BGRA32,
             color_width,
             color_height,
@@ -303,8 +303,8 @@ static int playback(char* input_path, int timestamp = 20000, std::string output_
         {
             printf("it worked\n");
 
-        }*/ 
-        
+        }*/
+
 
 
         if (K4A_RESULT_SUCCEEDED != k4a_image_create(K4A_IMAGE_FORMAT_DEPTH16,
@@ -316,7 +316,7 @@ static int playback(char* input_path, int timestamp = 20000, std::string output_
             printf("Failed to create transformed depth image\n");
             return false;
         }
-        
+
 
 
 
@@ -346,10 +346,10 @@ static int playback(char* input_path, int timestamp = 20000, std::string output_
 
         imwrite(out_file, depthMat);
 
-       uint8_t* image_buffer = k4a_image_get_buffer(color_image);
+        uint8_t* image_buffer = k4a_image_get_buffer(color_image);
         size_t image_buffer_size = k4a_image_get_size(color_image);
         String ext = ".png";
-        color_out_file = "c:\\users\\tommas\\kinect_transformations\\neryl_sad_color\\\\neryl_sad_rgb_"+ std::to_string(i) + ext;
+        color_out_file = "c:\\users\\tommas\\kinect_transformations\\clinic_pain_2\\\\clinic_pain_2_" + std::to_string(i) + ext;
         std::ofstream file_object(color_out_file, std::ios::out | std::ios::binary);
         file_object.write(reinterpret_cast<char*>(image_buffer), image_buffer_size);
         file_object.close();
@@ -418,7 +418,7 @@ int main(int argc, char** argv)
     else
     {
         std::string mode = std::string(argv[1]);
-      if (mode == "playback")
+        if (mode == "playback")
         {
             if (argc == 3)
             {
